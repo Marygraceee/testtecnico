@@ -1,72 +1,90 @@
-import { useState } from 'react';
 
-function ActiveActivities() {
+import React, { useContext, useState } from 'react';
+import { FirebaseContext } from '../../Context/FirebaseContext';
+
+
+const todos = [
+  { id: 1, description: 'Task 1', operator: 'John' },
+  { id: 2, description: 'Task 2', operator: 'Jane' },
+  { id: 3, description: 'Task 3', operator: 'John' },
+  { id: 4, description: 'Task 4', operator: 'Jane' },
+  { id: 5, description: 'Task 5', operator: 'John' },
+  { id: 6, description: 'Task 6', operator: 'Jane' },
+  { id: 7, description: 'Task 7', operator: 'John' },
+  { id: 8, description: 'Task 8', operator: 'Jane' },
+  { id: 9, description: 'Task 9', operator: 'John' },
+  { id: 10, description: 'Task 10', operator: 'Jane' },
+  { id: 11, description: 'Task 11', operator: 'Jane' },
+  { id: 12, description: 'Task 12', operator: 'Jane' },
+  { id: 13, description: 'Task 13', operator: 'Jane' },
+];
+
+const ActiveActivities = () => {
+    const {users, activities} = useContext(FirebaseContext) 
+    console.log(users, activities)
+  const [operatorFilter, setOperatorFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [displayAll, setDisplayAll] = useState(false);
-  const [itemsPerPage, setItemsPerPage] = useState(5)
-  const data = [
-    { id: 1, name: 'John' },
-    { id: 2, name: 'Jane' },
-    { id: 3, name: 'Bob' },
-    { id: 4, name: 'Alice' },
-    { id: 5, name: 'Mark' },
-    { id: 6, name: 'Emma' },
-    { id: 7, name: 'Kate' },
-    { id: 8, name: 'Mike' },
-    { id: 9, name: 'David' },
-  ];
+  const [todosPerPage] = useState(5);
 
-  const lastIndex = displayAll ? data.length : currentPage * itemsPerPage;
-  const firstIndex = displayAll ? 0 : lastIndex - itemsPerPage;
-  const currentData = data.slice(firstIndex, lastIndex);
-
-  
-
-  const renderPagination = () => {
-    const totalPages = Math.ceil(data.length / itemsPerPage);
-    const pages = [];
-
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(
-        <button
-          key={i}
-          onClick={() => setCurrentPage(i)}
-          style={{
-            margin: '0 5px',
-            fontWeight: currentPage === i ? 'bold' : 'normal',
-          }}
-        >
-          {i}
-        </button>
-      );
+  // Filter the todos based on the selected operator
+  const filteredTodos = todos.filter(todo => {
+    if (!operatorFilter) {
+      return true;
     }
+    return todo.operator === operatorFilter;
+  });
 
-    return pages;
+  // Calculate the total number of pages needed for pagination
+  const totalPages = Math.ceil(filteredTodos.length / todosPerPage);
+
+  // Get the todos for the current page
+  const indexOfLastTodo = currentPage * todosPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+  const currentTodos = filteredTodos.slice(indexOfFirstTodo, indexOfLastTodo);
+
+  // Handle changing the operator filter
+  const handleOperatorChange = event => {
+    setOperatorFilter(event.target.value);
+    setCurrentPage(1); // Reset to the first page when the filter changes
   };
 
-  const renderItems = currentData.map((item) => (
-    <div key={item.id}>Hello World, {item.name}!</div>
-  ));
+  // Handle changing the page number
+  const handlePageChange = pageNumber => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
-    <section className=" w-full h-full px-12 py-12">
+    <div>
         <div>
-         <h2 className="text-xl text-[#2A3948] tracking-wide font-semibold">Attivita da completare</h2>
+        <h1 className="text-[#2A3948] font-semibold text-xl tracking-wide">Attività da completare</h1>
+      <div>
+        <label htmlFor="operator-filter">Filter by operator:</label>
+        <select id="operator-filter" onChange={handleOperatorChange} value={operatorFilter}>
+          <option value="">All operators</option>
+          <option value="John">John</option>
+          <option value="Jane">Jane</option>
+        </select>
+      </div>
         </div>
-        <div className="bg-yellow-200">
-        {renderItems}
-        </div>
-      
-      {data.length > itemsPerPage && (
+     
+      <ul>
+        {currentTodos.map(todo => (
+          <li key={todo.id}>
+            {todo.description} - {todo.operator}
+          </li>
+        ))}
+      </ul>
+      {totalPages > 1 && (
         <div>
-          {displayAll ? null : (
-            <button onClick={() => setDisplayAll(true)}>Display All</button>
-          )}
-          {renderPagination()}
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
+            <button key={pageNumber} onClick={() => handlePageChange(pageNumber)}>
+              {pageNumber}
+            </button>
+          ))}
         </div>
       )}
-    </section>
+    </div>
   );
-}
+};
 
 export default ActiveActivities;
