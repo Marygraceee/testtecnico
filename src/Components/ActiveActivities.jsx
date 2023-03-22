@@ -1,79 +1,105 @@
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import React, { useContext, useState } from 'react';
 import { FirebaseContext } from '../../Context/FirebaseContext';
 
 
-const todos = [
-  { id: 1, description: 'Task 1', operator: 'John' },
-  { id: 2, description: 'Task 2', operator: 'Jane' },
-  { id: 3, description: 'Task 3', operator: 'John' },
-  { id: 4, description: 'Task 4', operator: 'Jane' },
-  { id: 5, description: 'Task 5', operator: 'John' },
-  { id: 6, description: 'Task 6', operator: 'Jane' },
-  { id: 7, description: 'Task 7', operator: 'John' },
-  { id: 8, description: 'Task 8', operator: 'Jane' },
-  { id: 9, description: 'Task 9', operator: 'John' },
-  { id: 10, description: 'Task 10', operator: 'Jane' },
-  { id: 11, description: 'Task 11', operator: 'Jane' },
-  { id: 12, description: 'Task 12', operator: 'Jane' },
-  { id: 13, description: 'Task 13', operator: 'Jane' },
-];
-
 const ActiveActivities = () => {
-    const {users, activities} = useContext(FirebaseContext) 
-    console.log(users, activities)
-  const [operatorFilter, setOperatorFilter] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [todosPerPage] = useState(5);
+    const { users, activities } = useContext(FirebaseContext);
 
-  // Filter the todos based on the selected operator
-  const filteredTodos = todos.filter(todo => {
-    if (!operatorFilter) {
-      return true;
-    }
-    return todo.operator === operatorFilter;
-  });
-
-  // Calculate the total number of pages needed for pagination
-  const totalPages = Math.ceil(filteredTodos.length / todosPerPage);
-
-  // Get the todos for the current page
-  const indexOfLastTodo = currentPage * todosPerPage;
-  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-  const currentTodos = filteredTodos.slice(indexOfFirstTodo, indexOfLastTodo);
-
-  // Handle changing the operator filter
-  const handleOperatorChange = event => {
-    setOperatorFilter(event.target.value);
-    setCurrentPage(1); // Reset to the first page when the filter changes
-  };
-
-  // Handle changing the page number
-  const handlePageChange = pageNumber => {
-    setCurrentPage(pageNumber);
-  };
+    const [operatorFilter, setOperatorFilter] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const activitiesPerPage = 5;
+  
+    const filteredActivities = activities.filter(activity => {
+      return !operatorFilter || activity.operator === operatorFilter;
+    });
+  
+    const totalPages = Math.ceil(filteredActivities.length / activitiesPerPage);
+    const indexOfLastActivity = currentPage * activitiesPerPage;
+    const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
+    const currentActivities = filteredActivities.slice(indexOfFirstActivity, indexOfLastActivity);
+  
+    const handleOperatorChange = event => {
+      setOperatorFilter(event.target.value);
+      setCurrentPage(1);
+    };
+  
+    const handlePageChange = pageNumber => {
+      setCurrentPage(pageNumber);
+    };
+  
+    console.log(users, activities);
 
   return (
-    <div>
-        <div>
-        <h1 className="text-[#2A3948] font-semibold text-xl tracking-wide">Attività da completare</h1>
-      <div>
-        <label htmlFor="operator-filter">Filter by operator:</label>
-        <select id="operator-filter" onChange={handleOperatorChange} value={operatorFilter}>
-          <option value="">All operators</option>
-          <option value="John">John</option>
-          <option value="Jane">Jane</option>
-        </select>
-      </div>
+    <section className="w-full h-full p-12 flex flex-col gap-5">
+
+
+        <div className="w-full flex flex-col items-start justity-center gap-2">
+        <h3 className="text-[#2A3948] font-semibold text-xl tracking-wide">Attività da completare</h3>
+      
+      <FormControl fullWidth className="bg-white px-12">
+      <InputLabel  style={{ paddingLeft: "0.5rem"}} id="Filtra per operatore">Filtra per operatore</InputLabel>
+        <Select
+          labelId="Filtra per operatore"
+          id="Filtra per operatore"
+          value={operatorFilter}
+          label="Filtra per operatore"
+          onChange={handleOperatorChange}
+          
+          
+        >
+     <MenuItem value="">Tutti</MenuItem>
+    {users && users.map((user) => (
+        <MenuItem key={user} value={user}>{user}</MenuItem>
+    ))}
+  </Select>
+</FormControl>
+      
         </div>
      
-      <ul>
-        {currentTodos.map(todo => (
-          <li key={todo.id}>
-            {todo.description} - {todo.operator}
-          </li>
-        ))}
-      </ul>
+
+        <table className="w-full mt-4 rounded-lg overflow-hidden">
+  <thead className="bg-red-500 text-white">
+    <tr>
+      <th className="text-left px-6 py-5">Activities</th>
+      <th className="text-left py-5">Operator</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {currentActivities.map((todo, index) => (
+      <tr
+        key={todo.id}
+        className={`${!index % 2 === 0 ? 'bg-gray-200' : 'bg-white'} justify-between`}
+      >
+        <td className="text-left px-6 py-5 text-black">{todo.description}</td>
+        <td className="text-left  text-black">{todo.operator}</td>
+        <td className=""></td>
+        <td className=""></td>
+        <td className=""></td>
+        <td className="text-right px-6">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Mark as complete
+          </button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+
+
+
+      
+
+
+
       {totalPages > 1 && (
         <div>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
@@ -83,7 +109,7 @@ const ActiveActivities = () => {
           ))}
         </div>
       )}
-    </div>
+    </section>
   );
 };
 

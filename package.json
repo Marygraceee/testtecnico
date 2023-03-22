@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.11.14",
     "firebase": "^9.18.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
