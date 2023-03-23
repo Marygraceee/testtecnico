@@ -41,10 +41,11 @@ const ActiveActivities = () => {
     console.log(users, activities);
 
   return (
-    <section className="w-full h-full xl:px-12 px-4 py-6 flex flex-col gap-2 justify-start">
+    <section className="w-full h-full xl:px-12 px-4 py-6 flex flex-col gap-2 justify-between">
 
+<div className="flex flex-col gap-2">
 
-        <div className="w-full flex flex-col items-start justity-center gap-2">
+<div className="w-full flex flex-col items-start justity-center gap-2">
         <h3 className="text-[#2A3948] font-semibold text-xl tracking-wide">Attività da completare</h3>
       
       <FormControl fullWidth className="bg-white">
@@ -71,8 +72,8 @@ const ActiveActivities = () => {
 <table className="w-full">
   <thead className="bg-[#BE0010] text-white">
     <tr>
-      <th className="text-left px-6 py-4 xl:w-[20rem] w-[5rem]">Attività</th>
-      <th className="text-left px-2 py-4">Operatore</th>
+      <th className="text-left px-6 py-4 xl:max-w-[20rem] xl:w-[20rem] w-[7rem] max-w-[7rem]">Attività</th>
+      <th className="text-left px-6 py-4">Operatore</th>
       <th className="xl:block hidden"></th>
       <th className="xl:block hidden"></th>
       <th className="xl:block hidden"></th>
@@ -85,8 +86,8 @@ const ActiveActivities = () => {
         key={activity.id}
         className={`${index % 2 === 0 ? 'bg-[#FAFBFC]' :  'bg-[#F0F3F6]'} justify-between`}
       >
-        <td className="text-left px-6 py-4 text-black font-semibold xl:max-w-[20rem] max-w-[5rem] overflow-scroll ">{activity.description}</td>
-        <td className="text-left px-2 text-black font-semibold">{activity.operator}</td>
+        <td className="text-left px-6 py-4 text-black font-semibold xl:max-w-[20rem] xl:w-[20rem] w-[7rem] max-w-[7rem] overflow-x-auto">{activity.description}</td>
+        <td className="text-left px-6 text-black font-semibold">{activity.operator}</td>
         <td className="xl:block hidden"></td>
         <td className="xl:block hidden"></td>
         <td className="xl:block hidden"></td>
@@ -112,6 +113,8 @@ const ActiveActivities = () => {
 
 
 <NewActivity />
+</div>
+
 
       
 
