@@ -2,7 +2,7 @@ import React from 'react'
 
 const TopNav = () => {
   return (
-    <nav className="flex-[0_0_112px] flex justify-end items-center px-12">
+    <nav className="flex-[0_0_100px] flex justify-end items-center px-12">
         <div className="text-sm flex justify-center items-center w-fit gap-5">
             <div className="leading-tight flex flex-col items-end">
             <p className="text-black font-bold">Mario Rossi</p>
