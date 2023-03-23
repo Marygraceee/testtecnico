@@ -14,9 +14,9 @@ const firebaseConfig = {
   storageBucket: "testtecnico-e1905.appspot.com",
   messagingSenderId: "380895725181",
   appId: "1:380895725181:web:8116ffd5e63beb8b761314",
-  measurementId: "G-4YDZLZPNQT"
+  measurementId: "G-4YDZLZPNQT",
 };
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app)
+export const db = getFirestore(app);

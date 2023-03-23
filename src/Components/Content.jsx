@@ -1,21 +1,20 @@
-import React from 'react'
-import { useLocation } from 'react-router-dom';
-import ActiveActivities from './ActiveActivities'
-import CompletedActivities from './CompletedActivities'
-import TopNav from './TopNav';
+import React from "react";
+import { useLocation } from "react-router-dom";
+import ActiveActivities from "./ActiveActivities";
+import CompletedActivities from "./CompletedActivities";
+import TopNav from "./TopNav";
 
 const Content = () => {
-    const location = useLocation();
+  const location = useLocation();
   return (
     <section className="xl:w-[80%] w-full flex flex-col h-screen">
       <TopNav />
       <div className=" bg-[#E6EBEF] flex justify-center items-start flex-1">
-      {location.pathname === "/" && <ActiveActivities />}
-      {location.pathname === "/completate" && <CompletedActivities />}
+        {location.pathname === "/" && <ActiveActivities />}
+        {location.pathname === "/completate" && <CompletedActivities />}
       </div>
-      
     </section>
-  )
-}
+  );
+};
 
-export default Content
+export default Content;
