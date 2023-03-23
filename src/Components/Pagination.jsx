@@ -22,7 +22,7 @@ const Pagination = ({totalPages, currentPage, handlePageChange}) => {
                 (pageNumber >= firstVisiblePage && pageNumber <= lastVisiblePage);
             })
             .map(pageNumber => (
-              <button className={`aspect-square h-[2.5rem] bg-transparent border-[#2a39482a] border-[0.2px] font-bold hover:bg-[#616E79] hover:text-white ${pageNumber === currentPage && "bg-black text-white"}`} key={pageNumber} onClick={() => {handlePageChange(pageNumber)}}>
+              <button className={`aspect-square h-[2.5rem] bg-transparent border-[#2a39482a] border-[0.2px] font-bold hover:bg-[#616E79] hover:text-white ${pageNumber === currentPage && "bg-[#616E79] text-white"}`} key={pageNumber} onClick={() => {handlePageChange(pageNumber)}}>
                 {pageNumber}
               </button>
             ))}
