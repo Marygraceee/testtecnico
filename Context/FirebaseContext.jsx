@@ -7,6 +7,7 @@ export const FirebaseContext = createContext();
 export const FirebaseContextProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [activities, setActivities] = useState([]);
+  const [completedActivities, setCompletedActivities] = useState([]);
 
   useEffect(() => {
     const unsubscribeUsers = onSnapshot(collection(db, "users"), (snapshot) => {
@@ -15,17 +16,21 @@ export const FirebaseContextProvider = ({ children }) => {
     });
 
     const unsubscribeActivities = onSnapshot(collection(db, "activities"), (snapshot) => {
-        const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        setActivities(data);
-      });
-  
-    
+      const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
+      // Filter the activities based on their completion status
+      const incompleteActivities = data.filter(activity => !activity.completed);
+      const completedActivities = data.filter(activity => activity.completed);
+
+      setActivities(incompleteActivities);
+      setCompletedActivities(completedActivities);
+    });
+  
     return () => {
       unsubscribeUsers();
       unsubscribeActivities();
     };
   }, []);
 
-  return <FirebaseContext.Provider value={{ users, activities }}>{children}</FirebaseContext.Provider>;
+  return <FirebaseContext.Provider value={{ users, activities, completedActivities }}>{children}</FirebaseContext.Provider>;
 };

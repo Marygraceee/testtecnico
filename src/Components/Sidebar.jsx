@@ -5,7 +5,7 @@ import {BiTask, BiBriefcase} from "react-icons/bi"
 
 const Sidebar = () => {
   return (
-    <div className=" bg-[#2A3948] w-[20%]">
+    <div className=" bg-[#2A3948] w-[20%] xl:block hidden">
         <div className="flex justify-center items-center bg-[#3D4B59] h-[100px]">
             <h1 className="text-white text-3xl leading-loose tracking-[1.05rem] font-semibold">LOGO</h1>
         </div>

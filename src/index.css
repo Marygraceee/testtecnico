@@ -39,3 +39,13 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  .scrollbar-show::-webkit-scrollbar {
+    display: "display-inside";
+  }
+  
+  /* For IE, Edge and Firefox */
+  .scrollbar-show {
+    -ms-overflow-style: "scrollbar"; /* IE and Edge */
+    scrollbar-width: "scrollbar"; /* Firefox */
+  }

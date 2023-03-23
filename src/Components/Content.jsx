@@ -7,7 +7,7 @@ import TopNav from './TopNav';
 const Content = () => {
     const location = useLocation();
   return (
-    <section className="w-[80%] flex flex-col h-screen">
+    <section className="xl:w-[80%] w-full flex flex-col h-screen">
       <TopNav />
       <div className=" bg-[#E6EBEF] flex justify-center items-start flex-1">
       {location.pathname === "/" && <ActiveActivities />}
